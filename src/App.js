@@ -9,14 +9,16 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      'name-input': '',
-      'description-input': '',
-      'attr1-input': '',
-      'attr2-input': '',
-      'attr3-input': '',
-      'image-input': '',
-      'rare-input': 'normal',
-      'trunfo-input': false,
+      form: {
+        'name-input': '',
+        'description-input': '',
+        'attr1-input': '',
+        'attr2-input': '',
+        'attr3-input': '',
+        'image-input': '',
+        'rare-input': 'normal',
+        'trunfo-input': false,
+      },
     };
   }
 
@@ -24,18 +26,25 @@ class App extends React.Component {
     const id = event.target.getAttribute('id');
 
     if (id === 'trunfo-input') {
-      this.setState({
-        [id]: event.target.checked,
-      });
+      this.setState((prevState) => ({
+        form: {
+          ...prevState.form,
+          [id]: event.target.checked,
+        },
+      }));
       return;
     }
 
-    this.setState({
-      [id]: event.target.value,
-    });
+    this.setState((prevState) => ({
+      form: {
+        ...prevState.form,
+        [id]: event.target.value,
+      },
+    }));
   };
 
   isSaveButtonDisabled = () => {
+    const { form } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -43,7 +52,7 @@ class App extends React.Component {
       'attr2-input': cardAttr2,
       'attr3-input': cardAttr3,
       'image-input': cardImage,
-    } = this.state;
+    } = form;
 
     switch (true) {
     case cardName.length === 0:
@@ -61,7 +70,7 @@ class App extends React.Component {
 
     let sum = 0;
     for (let i = 0; i < cardAttr.length; i += 1) {
-      if (isNaN(cardAttr[i]) || cardAttr[i] > MAX_ATT || cardAttr[i] < 0) {
+      if (Number.isNaN(cardAttr[i]) || cardAttr[i] > MAX_ATT || cardAttr[i] < 0) {
         return true;
       }
       sum += cardAttr[i];
@@ -71,6 +80,7 @@ class App extends React.Component {
   };
 
   render() {
+    const { form } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -80,7 +90,7 @@ class App extends React.Component {
       'image-input': cardImage,
       'rare-input': cardRare,
       'trunfo-input': cardTrunfo,
-    } = this.state;
+    } = form;
 
     return (
       <div>
