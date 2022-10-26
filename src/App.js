@@ -2,6 +2,9 @@ import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 
+const MAX_ATT = 90;
+const MAX_ATT_SUM = 210;
+
 class App extends React.Component {
   constructor() {
     super();
@@ -32,6 +35,41 @@ class App extends React.Component {
     });
   };
 
+  isSaveButtonDisabled = () => {
+    const {
+      'name-input': cardName,
+      'description-input': cardDescription,
+      'attr1-input': cardAttr1,
+      'attr2-input': cardAttr2,
+      'attr3-input': cardAttr3,
+      'image-input': cardImage,
+    } = this.state;
+
+    switch (true) {
+    case cardName.length === 0:
+    case cardDescription.length === 0:
+    case cardImage.length === 0:
+      return true;
+    default:
+    }
+
+    const cardAttr = [
+      parseInt(cardAttr1, 10),
+      parseInt(cardAttr2, 10),
+      parseInt(cardAttr3, 10),
+    ];
+
+    let sum = 0;
+    for (let i = 0; i < cardAttr.length; i += 1) {
+      if (isNaN(cardAttr[i]) || cardAttr[i] > MAX_ATT || cardAttr[i] < 0) {
+        return true;
+      }
+      sum += cardAttr[i];
+    }
+
+    return (sum > MAX_ATT_SUM);
+  };
+
   render() {
     const {
       'name-input': cardName,
@@ -56,6 +94,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          isSaveButtonDisabled={ this.isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
         />
         <Card
