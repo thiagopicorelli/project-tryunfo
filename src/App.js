@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import CardList from './components/CardList';
 
 const MAX_ATT = 90;
 const MAX_ATT_SUM = 210;
@@ -98,7 +99,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { form, hasTrunfo } = this.state;
+    const { form, cards, hasTrunfo } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -137,6 +138,8 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+
+        <CardList cards={ cards } />
       </div>
     );
   }

@@ -20,3 +20,7 @@ code {
 .form_cards_input {
   padding: 5px;
 }
+
+.card_list {
+  background-color: red;
+}
