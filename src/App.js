@@ -5,40 +5,41 @@ import Card from './components/Card';
 const MAX_ATT = 90;
 const MAX_ATT_SUM = 210;
 
+const DEFAULT_FORM = {
+  'name-input': '',
+  'description-input': '',
+  'attr1-input': '0',
+  'attr2-input': '0',
+  'attr3-input': '0',
+  'image-input': '',
+  'rare-input': 'normal',
+  'trunfo-input': false,
+};
+
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      form: {
-        'name-input': '',
-        'description-input': '',
-        'attr1-input': '',
-        'attr2-input': '',
-        'attr3-input': '',
-        'image-input': '',
-        'rare-input': 'normal',
-        'trunfo-input': false,
-      },
+      form: { ...DEFAULT_FORM },
+      cards: [],
     };
   }
 
   onInputChange = (event) => {
     const id = event.target.getAttribute('id');
 
+    let value = '';
     if (id === 'trunfo-input') {
-      this.setState((prevState) => ({
-        form: {
-          ...prevState.form,
-          [id]: event.target.checked,
-        },
-      }));
-      return;
+      value = event.target.checked;
+    } else {
+      value = event.target.value;
     }
 
     this.setState((prevState) => ({
+      ...prevState,
       form: {
         ...prevState.form,
-        [id]: event.target.value,
+        [id]: value,
       },
     }));
   };
@@ -79,6 +80,15 @@ class App extends React.Component {
     return (sum > MAX_ATT_SUM);
   };
 
+  onSaveButtonClick = () => {
+    const { form } = this.state;
+    this.setState((prevState) => ({
+      ...prevState,
+      form: { ...DEFAULT_FORM },
+      cards: [...prevState.cards, form],
+    }), () => {console.log(this.state.cards);});
+  };
+
   render() {
     const { form } = this.state;
     const {
@@ -106,6 +116,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           isSaveButtonDisabled={ this.isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
           cardName={ cardName }
