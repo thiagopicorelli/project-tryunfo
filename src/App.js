@@ -86,7 +86,7 @@ class App extends React.Component {
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
-    }), () => {console.log(this.state.cards);});
+    }));
   };
 
   render() {
