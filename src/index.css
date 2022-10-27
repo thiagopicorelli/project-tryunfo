@@ -21,6 +21,6 @@ code {
   padding: 5px;
 }
 
-.card_list {
-  background-color: red;
+.card_list section {
+  border: 1px solid black;
 }

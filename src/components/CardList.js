@@ -4,22 +4,31 @@ import Card from './Card';
 
 class CardList extends Component {
   render() {
-    const { cards } = this.props;
+    const { cards, onDeleteButtonClick } = this.props;
 
     return (
       <section className="card_list">
         { cards.map((card, index) => (
-          <Card
-            cardName={ card['name-input'] }
-            cardDescription={ card['description-input'] }
-            cardAttr1={ card['attr1-input'] }
-            cardAttr2={ card['attr2-input'] }
-            cardAttr3={ card['attr3-input'] }
-            cardImage={ card['image-input'] }
-            cardRare={ card['rare-input'] }
-            cardTrunfo={ card['trunfo-input'] }
-            key={ index }
-          />
+          <section key={ index }>
+            <Card
+              cardName={ card['name-input'] }
+              cardDescription={ card['description-input'] }
+              cardAttr1={ card['attr1-input'] }
+              cardAttr2={ card['attr2-input'] }
+              cardAttr3={ card['attr3-input'] }
+              cardImage={ card['image-input'] }
+              cardRare={ card['rare-input'] }
+              cardTrunfo={ card['trunfo-input'] }
+            />
+            <button
+              type="button"
+              onClick={ onDeleteButtonClick }
+              data-testid="delete-button"
+              pos={ index }
+            >
+              Excluir
+            </button>
+          </section>
         )) }
       </section>
     );
@@ -37,5 +46,6 @@ CardList.propTypes = {
     'rare-input': PropTypes.string.isRequired,
     'trunfo-input': PropTypes.bool.isRequired,
   })).isRequired,
+  onDeleteButtonClick: PropTypes.func.isRequired,
 };
 export default CardList;

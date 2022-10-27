@@ -5,6 +5,7 @@ import CardList from './components/CardList';
 
 const MAX_ATT = 90;
 const MAX_ATT_SUM = 210;
+const trunfoInput = 'trunfo-input';
 
 const DEFAULT_FORM = {
   'name-input': '',
@@ -86,7 +87,7 @@ class App extends React.Component {
     const { form } = this.state;
     let { hasTrunfo } = this.state;
 
-    if (form['trunfo-input']) {
+    if (form[trunfoInput]) {
       hasTrunfo = true;
     }
 
@@ -94,6 +95,24 @@ class App extends React.Component {
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
+      hasTrunfo,
+    }));
+  };
+
+  onDeleteButtonClick = (event) => {
+    const pos = event.target.getAttribute('pos');
+    const { cards } = this.state;
+    let { hasTrunfo } = this.state;
+
+    if (cards[pos][trunfoInput]) {
+      hasTrunfo = false;
+    }
+
+    cards.splice(pos, 1);
+
+    this.setState((prevState) => ({
+      ...prevState,
+      cards,
       hasTrunfo,
     }));
   };
@@ -138,8 +157,10 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-
-        <CardList cards={ cards } />
+        <CardList
+          cards={ cards }
+          onDeleteButtonClick={ this.onDeleteButtonClick }
+        />
       </div>
     );
   }
