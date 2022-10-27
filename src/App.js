@@ -22,6 +22,7 @@ class App extends React.Component {
     this.state = {
       form: { ...DEFAULT_FORM },
       cards: [],
+      hasTrunfo: false,
     };
   }
 
@@ -82,15 +83,22 @@ class App extends React.Component {
 
   onSaveButtonClick = () => {
     const { form } = this.state;
+    let { hasTrunfo } = this.state;
+
+    if (form['trunfo-input']) {
+      hasTrunfo = true;
+    }
+
     this.setState((prevState) => ({
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
+      hasTrunfo,
     }));
   };
 
   render() {
-    const { form } = this.state;
+    const { form, hasTrunfo } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -114,7 +122,8 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          isSaveButtonDisabled={ this.isSaveButtonDisabled }
+          hasTrunfo={ hasTrunfo }
+          isSaveButtonDisabled={ this.isSaveButtonDisabled() }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
         />

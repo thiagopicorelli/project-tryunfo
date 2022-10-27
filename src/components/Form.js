@@ -3,6 +3,23 @@ import PropTypes from 'prop-types';
 import FormInput from './FormInput';
 
 class Form extends Component {
+  superTrunfoOption = (cardTrunfo, hasTrunfo, onInputChange) => {
+    if (hasTrunfo) {
+      return (
+        <p>Você já tem um Super Trunfo em seu baralho</p>
+      );
+    }
+    return (
+      <FormInput
+        testid="trunfo-input"
+        label="É Super Trunfo?"
+        type="checkbox"
+        checked={ cardTrunfo }
+        onChange={ onInputChange }
+      />
+    );
+  };
+
   render() {
     const {
       cardName,
@@ -78,18 +95,12 @@ class Form extends Component {
           </select>
         </label>
 
-        <FormInput
-          testid="trunfo-input"
-          label="É Super Trunfo?"
-          type="checkbox"
-          checked={ cardTrunfo }
-          onChange={ onInputChange }
-        />
+        { this.superTrunfoOption(cardTrunfo, hasTrunfo, onInputChange) }
 
         <button
           type="button"
           data-testid="save-button"
-          disabled={ isSaveButtonDisabled() }
+          disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
         >
           Salvar
