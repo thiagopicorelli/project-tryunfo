@@ -28,6 +28,7 @@ class App extends React.Component {
       filteredCards: [],
       filter: {
         'name-filter': '',
+        'rare-filter': 'todas',
       },
       hasTrunfo: false,
     };
@@ -37,8 +38,17 @@ class App extends React.Component {
     const { cards, filter } = this.state;
     const {
       'name-filter': nameFilter,
+      'rare-filter': rareFilter,
     } = filter;
-    const filteredCards = cards.filter((card) => card['name-input'].includes(nameFilter));
+
+    let filteredCards = cards.filter((card) => (
+      card['name-input'].includes(nameFilter)
+    ));
+
+    if (rareFilter !== 'todas') {
+      filteredCards = filteredCards.filter((card) => (card['rare-input'] === rareFilter));
+    }
+
     this.setState((prevState) => ({
       ...prevState,
       filteredCards,
