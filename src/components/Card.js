@@ -24,8 +24,10 @@ class Card extends Component {
     } = this.props;
 
     return (
-      <div>
-        <p data-testid="name-card">{ cardName }</p>
+      <section className="card">
+        <section className="name-card">
+          <p data-testid="name-card">{ cardName }</p>
+        </section>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />
         <p data-testid="description-card">{ cardDescription }</p>
         <p data-testid="attr1-card">{ cardAttr1 }</p>
@@ -33,7 +35,7 @@ class Card extends Component {
         <p data-testid="attr3-card">{ cardAttr3 }</p>
         <p data-testid="rare-card">{ cardRare }</p>
         { this.superTrunfoSection(cardTrunfo) }
-      </div>
+      </section>
     );
   }
 }

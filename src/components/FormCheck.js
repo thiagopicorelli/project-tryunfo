@@ -35,16 +35,8 @@ FormInput.propTypes = {
   testid: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  checked: PropTypes.bool,
+  checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
-
-FormInput.defaultProps = {
-  value: '',
-  checked: false,
-  disabled: false,
 };
 
 export default FormInput;
