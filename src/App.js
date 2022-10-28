@@ -26,9 +26,36 @@ class App extends React.Component {
       form: { ...DEFAULT_FORM },
       cards: [],
       filteredCards: [],
+      filter: {
+        'name-filter': '',
+      },
       hasTrunfo: false,
     };
   }
+
+  updateFilteredCards = () => {
+    const { cards, filter } = this.state;
+    const {
+      'name-filter': nameFilter,
+    } = filter;
+    const filteredCards = cards.filter((card) => card['name-input'].includes(nameFilter));
+    this.setState((prevState) => ({
+      ...prevState,
+      filteredCards,
+    }));
+  };
+
+  onFilterInputChange = (event) => {
+    const id = event.target.getAttribute('id');
+    const { value } = event.target;
+    this.setState((prevState) => ({
+      ...prevState,
+      filter: {
+        ...prevState.filter,
+        [id]: value,
+      },
+    }), () => { this.updateFilteredCards(); });
+  };
 
   onInputChange = (event) => {
     const id = event.target.getAttribute('id');
@@ -85,14 +112,8 @@ class App extends React.Component {
     return (sum > MAX_ATT_SUM);
   };
 
-  onUpdateCards = () => {
-    const { cards, filteredCards } = this.state;
-
-    
-  }
-
   onSaveButtonClick = () => {
-    const { form, cards } = this.state;
+    const { form } = this.state;
     let { hasTrunfo } = this.state;
 
     if (form[trunfoInput]) {
@@ -103,9 +124,8 @@ class App extends React.Component {
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
-      filteredCards: [...prevState.filteredCards, form],
       hasTrunfo,
-    }));
+    }), () => { this.updateFilteredCards(); });
   };
 
   onDeleteButtonClick = (event) => {
@@ -132,7 +152,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { form, cards, filteredCards, hasTrunfo } = this.state;
+    const { form, filteredCards, filter, hasTrunfo } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -173,6 +193,8 @@ class App extends React.Component {
         />
         <CardList
           filteredCards={ filteredCards }
+          filter={ filter }
+          onFilterInputChange={ this.onFilterInputChange }
           onDeleteButtonClick={ this.onDeleteButtonClick }
         />
       </div>

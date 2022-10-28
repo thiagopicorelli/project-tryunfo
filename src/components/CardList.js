@@ -4,38 +4,21 @@ import Card from './Card';
 import CardListFilter from './CardListFilter';
 
 class CardList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: {
-        name: '',
-      },
-    };
-  }
-
-  onInputChange = (event) => {
-    const id = event.target.getAttribute('id');
-    this.setState((prevState) => ({
-      ...prevState,
-      filter: {
-        ...prevState.filter,
-        [id]: event.target.value,
-      },
-    }));
-  };
-
   render() {
-    const { filteredCards, onDeleteButtonClick } = this.props;
-    const { filter } = this.state;
-
+    const {
+      filteredCards,
+      filter,
+      onDeleteButtonClick,
+      onFilterInputChange,
+    } = this.props;
     return (
       <section className="card_list">
         <CardListFilter
           filter={ filter }
-          onInputChange={ this.onInputChange }
+          onInputChange={ onFilterInputChange }
         />
-        { filteredCards.map((card, index) => {
-          return (
+        {
+          filteredCards.map((card, index) => (
             <section key={ index }>
               <Card
                 cardName={ card['name-input'] }
@@ -56,8 +39,8 @@ class CardList extends Component {
                 Excluir
               </button>
             </section>
-          );
-        }) }
+          ))
+        }
       </section>
     );
   }
@@ -74,6 +57,10 @@ CardList.propTypes = {
     'rare-input': PropTypes.string.isRequired,
     'trunfo-input': PropTypes.bool.isRequired,
   })).isRequired,
+  filter: PropTypes.shape({
+    'name-filter': PropTypes.string.isRequired,
+  }).isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
+  onFilterInputChange: PropTypes.func.isRequired,
 };
 export default CardList;
