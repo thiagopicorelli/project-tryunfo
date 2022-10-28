@@ -5,6 +5,7 @@ import CardList from './components/CardList';
 
 const MAX_ATT = 90;
 const MAX_ATT_SUM = 210;
+const INDEXOF_ERROR = -1;
 const trunfoInput = 'trunfo-input';
 
 const DEFAULT_FORM = {
@@ -24,6 +25,7 @@ class App extends React.Component {
     this.state = {
       form: { ...DEFAULT_FORM },
       cards: [],
+      filteredCards: [],
       hasTrunfo: false,
     };
   }
@@ -84,7 +86,7 @@ class App extends React.Component {
   };
 
   onSaveButtonClick = () => {
-    const { form } = this.state;
+    const { form, cards } = this.state;
     let { hasTrunfo } = this.state;
 
     if (form[trunfoInput]) {
@@ -95,8 +97,9 @@ class App extends React.Component {
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
+      filteredCards: [...prevState.filteredCards, cards.length],
       hasTrunfo,
-    }));
+    }), () => {console.log(this.state.filteredCards);});
   };
 
   onDeleteButtonClick = (event) => {
@@ -109,16 +112,21 @@ class App extends React.Component {
     }
 
     cards.splice(pos, 1);
+    const fltPos = filteredCards.indexOf(pos);
+    if (fltPos !== INDEXOF_ERROR) {
+      filteredCards.splice(fltPos, 1);
+    }
 
     this.setState((prevState) => ({
       ...prevState,
       cards,
+      filteredCards,
       hasTrunfo,
-    }));
+    }), () => {console.log(this.state.filteredCards);});
   };
 
   render() {
-    const { form, cards, hasTrunfo } = this.state;
+    const { form, cards, filteredCards, hasTrunfo } = this.state;
     const {
       'name-input': cardName,
       'description-input': cardDescription,
@@ -159,6 +167,7 @@ class App extends React.Component {
         />
         <CardList
           cards={ cards }
+          filteredCards={ filteredCards }
           onDeleteButtonClick={ this.onDeleteButtonClick }
         />
       </div>

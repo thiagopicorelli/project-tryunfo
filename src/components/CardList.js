@@ -1,13 +1,39 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Card from './Card';
+import CardListFilter from './CardListFilter';
 
 class CardList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: {
+        name: '',
+      },
+    };
+  }
+
+  onInputChange = (event) => {
+    const id = event.target.getAttribute('id');
+    this.setState((prevState) => ({
+      ...prevState,
+      filter: {
+        ...prevState.filter,
+        [id]: event.target.value,
+      },
+    }));
+  };
+
   render() {
     const { cards, onDeleteButtonClick } = this.props;
+    const { filter } = this.state;
 
     return (
       <section className="card_list">
+        <CardListFilter
+          filter={ filter }
+          onInputChange={ this.onInputChange }
+        />
         { cards.map((card, index) => (
           <section key={ index }>
             <Card
