@@ -59,6 +59,8 @@ CardList.propTypes = {
   })).isRequired,
   filter: PropTypes.shape({
     'name-filter': PropTypes.string.isRequired,
+    'rare-filter': PropTypes.string.isRequired,
+    'trunfo-filter': PropTypes.bool.isRequired,
   }).isRequired,
   onDeleteButtonClick: PropTypes.func.isRequired,
   onFilterInputChange: PropTypes.func.isRequired,

@@ -5,14 +5,20 @@ import FormInput from './FormInput';
 class CardListFilter extends Component {
   render() {
     const { onInputChange, filter } = this.props;
+    const {
+      'name-filter': nameFilter,
+      'rare-filter': rareFilter,
+      'trunfo-filter': trunfoFilter,
+    } = filter;
     return (
       <section>
         <FormInput
           testid="name-filter"
           label="Nome:"
           type="text"
-          value={ filter['name-filter'] }
+          value={ nameFilter }
           onChange={ onInputChange }
+          disabled={ trunfoFilter }
         />
 
         <label htmlFor="rare-filter">
@@ -20,15 +26,24 @@ class CardListFilter extends Component {
           <select
             id="rare-filter"
             data-testid="rare-filter"
-            value={ filter['rare-filter'] }
+            value={ rareFilter }
             onChange={ onInputChange }
+            disabled={ trunfoFilter }
           >
+            <option value="todas">Todas</option>
             <option value="normal">Normal</option>
             <option value="raro">Raro</option>
             <option value="muito raro">Muito Raro</option>
-            <option value="todas">Todas</option>
           </select>
         </label>
+
+        <FormInput
+          testid="trunfo-filter"
+          label="Super Trunfo"
+          type="checkbox"
+          checked={ trunfoFilter }
+          onChange={ onInputChange }
+        />
 
       </section>
     );
@@ -38,8 +53,9 @@ class CardListFilter extends Component {
 CardListFilter.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   filter: PropTypes.shape({
-    'name-filter': PropTypes.string,
-    'rare-filter': PropTypes.string,
+    'name-filter': PropTypes.string.isRequired,
+    'rare-filter': PropTypes.string.isRequired,
+    'trunfo-filter': PropTypes.bool.isRequired,
   }).isRequired,
 };
 

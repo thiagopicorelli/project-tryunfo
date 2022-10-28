@@ -29,6 +29,7 @@ class App extends React.Component {
       filter: {
         'name-filter': '',
         'rare-filter': 'todas',
+        'trunfo-filter': false,
       },
       hasTrunfo: false,
     };
@@ -39,14 +40,25 @@ class App extends React.Component {
     const {
       'name-filter': nameFilter,
       'rare-filter': rareFilter,
+      'trunfo-filter': trunfoFilter,
     } = filter;
 
-    let filteredCards = cards.filter((card) => (
-      card['name-input'].includes(nameFilter)
-    ));
+    let filteredCards;
+    if (trunfoFilter) {
+      filteredCards = [cards.find((card) => (card[trunfoInput]))];
+    } else {
+      filteredCards = cards.filter((card) => (
+        card['name-input'].includes(nameFilter)
+      ));
 
-    if (rareFilter !== 'todas') {
-      filteredCards = filteredCards.filter((card) => (card['rare-input'] === rareFilter));
+      if (rareFilter !== 'todas') {
+        filteredCards = filteredCards.filter((card) => (
+          card['rare-input'] === rareFilter
+        ));
+      }
+    }
+    if (filteredCards.includes(undefined)) {
+      filteredCards = [];
     }
 
     this.setState((prevState) => ({
@@ -57,7 +69,14 @@ class App extends React.Component {
 
   onFilterInputChange = (event) => {
     const id = event.target.getAttribute('id');
-    const { value } = event.target;
+
+    let value = '';
+    if (id === 'trunfo-filter') {
+      value = event.target.checked;
+    } else {
+      value = event.target.value;
+    }
+
     this.setState((prevState) => ({
       ...prevState,
       filter: {

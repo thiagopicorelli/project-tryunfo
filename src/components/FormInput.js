@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 
 class FormInput extends Component {
   render() {
-    const { testid, type, label, value, checked, onChange } = this.props;
+    const {
+      testid,
+      type,
+      label,
+      value,
+      checked,
+      onChange,
+      disabled,
+    } = this.props;
     return (
       <label htmlFor={ testid } className="form_cards_input">
         { label }
@@ -14,6 +22,7 @@ class FormInput extends Component {
           value={ value }
           checked={ checked }
           onChange={ onChange }
+          disabled={ disabled }
         />
       </label>
     );
@@ -27,11 +36,13 @@ FormInput.propTypes = {
   value: PropTypes.string,
   checked: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 FormInput.defaultProps = {
   value: '',
   checked: false,
+  disabled: false,
 };
 
 export default FormInput;
