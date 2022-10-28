@@ -25,7 +25,7 @@ class CardList extends Component {
   };
 
   render() {
-    const { cards, onDeleteButtonClick } = this.props;
+    const { filteredCards, onDeleteButtonClick } = this.props;
     const { filter } = this.state;
 
     return (
@@ -34,35 +34,37 @@ class CardList extends Component {
           filter={ filter }
           onInputChange={ this.onInputChange }
         />
-        { cards.map((card, index) => (
-          <section key={ index }>
-            <Card
-              cardName={ card['name-input'] }
-              cardDescription={ card['description-input'] }
-              cardAttr1={ card['attr1-input'] }
-              cardAttr2={ card['attr2-input'] }
-              cardAttr3={ card['attr3-input'] }
-              cardImage={ card['image-input'] }
-              cardRare={ card['rare-input'] }
-              cardTrunfo={ card['trunfo-input'] }
-            />
-            <button
-              type="button"
-              onClick={ onDeleteButtonClick }
-              data-testid="delete-button"
-              pos={ index }
-            >
-              Excluir
-            </button>
-          </section>
-        )) }
+        { filteredCards.map((card, index) => {
+          return (
+            <section key={ index }>
+              <Card
+                cardName={ card['name-input'] }
+                cardDescription={ card['description-input'] }
+                cardAttr1={ card['attr1-input'] }
+                cardAttr2={ card['attr2-input'] }
+                cardAttr3={ card['attr3-input'] }
+                cardImage={ card['image-input'] }
+                cardRare={ card['rare-input'] }
+                cardTrunfo={ card['trunfo-input'] }
+              />
+              <button
+                type="button"
+                onClick={ onDeleteButtonClick }
+                data-testid="delete-button"
+                pos={ index }
+              >
+                Excluir
+              </button>
+            </section>
+          );
+        }) }
       </section>
     );
   }
 }
 
 CardList.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.shape({
+  filteredCards: PropTypes.arrayOf(PropTypes.shape({
     'name-input': PropTypes.string.isRequired,
     'description-input': PropTypes.string.isRequired,
     'attr1-input': PropTypes.string.isRequired,

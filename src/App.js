@@ -85,6 +85,12 @@ class App extends React.Component {
     return (sum > MAX_ATT_SUM);
   };
 
+  onUpdateCards = () => {
+    const { cards, filteredCards } = this.state;
+
+    
+  }
+
   onSaveButtonClick = () => {
     const { form, cards } = this.state;
     let { hasTrunfo } = this.state;
@@ -97,32 +103,32 @@ class App extends React.Component {
       ...prevState,
       form: { ...DEFAULT_FORM },
       cards: [...prevState.cards, form],
-      filteredCards: [...prevState.filteredCards, cards.length],
+      filteredCards: [...prevState.filteredCards, form],
       hasTrunfo,
-    }), () => {console.log(this.state.filteredCards);});
+    }));
   };
 
   onDeleteButtonClick = (event) => {
-    const pos = event.target.getAttribute('pos');
-    const { cards } = this.state;
+    const pos = Number.parseInt(event.target.getAttribute('pos'), 10);
+    const { cards, filteredCards } = this.state;
     let { hasTrunfo } = this.state;
 
     if (cards[pos][trunfoInput]) {
       hasTrunfo = false;
     }
 
-    cards.splice(pos, 1);
-    const fltPos = filteredCards.indexOf(pos);
+    const fltPos = filteredCards.indexOf(cards[pos]);
     if (fltPos !== INDEXOF_ERROR) {
       filteredCards.splice(fltPos, 1);
     }
+    cards.splice(pos, 1);
 
     this.setState((prevState) => ({
       ...prevState,
       cards,
       filteredCards,
       hasTrunfo,
-    }), () => {console.log(this.state.filteredCards);});
+    }));
   };
 
   render() {
@@ -166,7 +172,6 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
         <CardList
-          cards={ cards }
           filteredCards={ filteredCards }
           onDeleteButtonClick={ this.onDeleteButtonClick }
         />
