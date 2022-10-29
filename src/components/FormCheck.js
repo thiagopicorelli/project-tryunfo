@@ -35,6 +35,8 @@ FormInput.propTypes = {
   testid: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
 };
