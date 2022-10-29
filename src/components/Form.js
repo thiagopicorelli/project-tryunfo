@@ -15,6 +15,7 @@ class Form extends Component {
         label="É Super Trunfo?"
         type="checkbox"
         checked={ cardTrunfo }
+        isCheck={ true }
         onChange={ onInputChange }
       />
     );

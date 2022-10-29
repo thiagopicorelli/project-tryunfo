@@ -9,9 +9,29 @@ class FormInput extends Component {
       label,
       value,
       checked,
+      isCheck,
       onChange,
       disabled,
     } = this.props;
+
+    if (isCheck) {
+      return (
+        <label htmlFor={ testid } className="form_cards_input_check">
+          <input
+            id={ testid }
+            type={ type }
+            data-testid={ testid }
+            checked={ checked }
+            onChange={ onChange }
+            disabled={ disabled }
+          />
+          <span>
+            { label }
+          </span>
+        </label>
+      );
+    }
+
     return (
       <label htmlFor={ testid } className="form_cards_input">
         <span>
@@ -22,7 +42,6 @@ class FormInput extends Component {
           type={ type }
           data-testid={ testid }
           value={ value }
-          checked={ checked }
           onChange={ onChange }
           disabled={ disabled }
         />
@@ -37,6 +56,7 @@ FormInput.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
   checked: PropTypes.bool,
+  isCheck: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -44,6 +64,7 @@ FormInput.propTypes = {
 FormInput.defaultProps = {
   value: '',
   checked: false,
+  isCheck: false,
   disabled: false,
 };
 

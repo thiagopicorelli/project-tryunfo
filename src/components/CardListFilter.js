@@ -21,7 +21,7 @@ class CardListFilter extends Component {
           disabled={ trunfoFilter }
         />
 
-        <label htmlFor="rare-filter">
+        <label htmlFor="rare-filter" className="form_cards_input">
           Raridade:
           <select
             id="rare-filter"
@@ -42,6 +42,7 @@ class CardListFilter extends Component {
           label="Super Trunfo"
           type="checkbox"
           checked={ trunfoFilter }
+          isCheck={ true }
           onChange={ onInputChange }
         />
 
