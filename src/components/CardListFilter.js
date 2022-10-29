@@ -11,7 +11,7 @@ class CardListFilter extends Component {
       'trunfo-filter': trunfoFilter,
     } = filter;
     return (
-      <section>
+      <section className="card-filter">
         <FormInput
           testid="name-filter"
           label="Nome:"

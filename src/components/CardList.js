@@ -12,35 +12,37 @@ class CardList extends Component {
       onFilterInputChange,
     } = this.props;
     return (
-      <section className="card_list">
+      <section className="card-list-filter">
         <CardListFilter
           filter={ filter }
           onInputChange={ onFilterInputChange }
         />
-        {
-          filteredCards.map((card, index) => (
-            <section key={ index }>
-              <Card
-                cardName={ card['name-input'] }
-                cardDescription={ card['description-input'] }
-                cardAttr1={ card['attr1-input'] }
-                cardAttr2={ card['attr2-input'] }
-                cardAttr3={ card['attr3-input'] }
-                cardImage={ card.cardImage }
-                cardRare={ card['rare-input'] }
-                cardTrunfo={ card['trunfo-input'] }
-              />
-              <button
-                type="button"
-                onClick={ onDeleteButtonClick }
-                data-testid="delete-button"
-                pos={ index }
-              >
-                Excluir
-              </button>
-            </section>
-          ))
-        }
+        <section className="card-list">
+          {
+            filteredCards.map((card, index) => (
+              <section className="card-list-card" key={ index }>
+                <Card
+                  cardName={ card['name-input'] }
+                  cardDescription={ card['description-input'] }
+                  cardAttr1={ card['attr1-input'] }
+                  cardAttr2={ card['attr2-input'] }
+                  cardAttr3={ card['attr3-input'] }
+                  cardImage={ card.cardImage }
+                  cardRare={ card['rare-input'] }
+                  cardTrunfo={ card['trunfo-input'] }
+                />
+                <button
+                  type="button"
+                  onClick={ onDeleteButtonClick }
+                  data-testid="delete-button"
+                  pos={ index }
+                >
+                  Excluir
+                </button>
+              </section>
+            ))
+          }
+        </section>
       </section>
     );
   }
