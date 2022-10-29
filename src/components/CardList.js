@@ -26,7 +26,7 @@ class CardList extends Component {
                 cardAttr1={ card['attr1-input'] }
                 cardAttr2={ card['attr2-input'] }
                 cardAttr3={ card['attr3-input'] }
-                cardImage={ card['image-input'] }
+                cardImage={ card.cardImage }
                 cardRare={ card['rare-input'] }
                 cardTrunfo={ card['trunfo-input'] }
               />

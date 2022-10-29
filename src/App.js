@@ -7,6 +7,7 @@ const MAX_ATT = 90;
 const MAX_ATT_SUM = 210;
 const INDEXOF_ERROR = -1;
 const trunfoInput = 'trunfo-input';
+const defaultImage = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/A_black_image.jpg/640px-A_black_image.jpg';
 
 const DEFAULT_FORM = {
   'name-input': '',
@@ -15,6 +16,7 @@ const DEFAULT_FORM = {
   'attr2-input': '0',
   'attr3-input': '0',
   'image-input': '',
+  cardImage: defaultImage,
   'rare-input': 'normal',
   'trunfo-input': false,
 };
@@ -42,7 +44,6 @@ class App extends React.Component {
       'rare-filter': rareFilter,
       'trunfo-filter': trunfoFilter,
     } = filter;
-
     let filteredCards;
     if (trunfoFilter) {
       filteredCards = [cards.find((card) => (card[trunfoInput]))];
@@ -50,7 +51,6 @@ class App extends React.Component {
       filteredCards = cards.filter((card) => (
         card['name-input'].includes(nameFilter)
       ));
-
       if (rareFilter !== 'todas') {
         filteredCards = filteredCards.filter((card) => (
           card['rare-input'] === rareFilter
@@ -60,7 +60,6 @@ class App extends React.Component {
     if (filteredCards.includes(undefined)) {
       filteredCards = [];
     }
-
     this.setState((prevState) => ({
       ...prevState,
       filteredCards,
@@ -69,14 +68,12 @@ class App extends React.Component {
 
   onFilterInputChange = (event) => {
     const id = event.target.getAttribute('id');
-
     let value = '';
     if (id === 'trunfo-filter') {
       value = event.target.checked;
     } else {
       value = event.target.value;
     }
-
     this.setState((prevState) => ({
       ...prevState,
       filter: {
@@ -88,14 +85,12 @@ class App extends React.Component {
 
   onInputChange = (event) => {
     const id = event.target.getAttribute('id');
-
     let value = '';
     if (id === 'trunfo-input') {
       value = event.target.checked;
     } else {
       value = event.target.value;
     }
-
     this.setState((prevState) => ({
       ...prevState,
       form: {
@@ -103,6 +98,31 @@ class App extends React.Component {
         [id]: value,
       },
     }));
+  };
+
+  onImageInputChange = (event) => {
+    this.onInputChange(event);
+    const { value } = event.target;
+    new Promise((resolve) => {
+      const img = new Image();
+      img.src = value;
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+    }).then((resolve) => {
+      let realValue = '';
+      if (resolve) {
+        realValue = value;
+      } else {
+        realValue = defaultImage;
+      }
+      this.setState((prevState) => ({
+        ...prevState,
+        form: {
+          ...prevState.form,
+          cardImage: realValue,
+        },
+      }));
+    });
   };
 
   isSaveButtonDisabled = () => {
@@ -115,7 +135,6 @@ class App extends React.Component {
       'attr3-input': cardAttr3,
       'image-input': cardImage,
     } = form;
-
     switch (true) {
     case cardName.length === 0:
     case cardDescription.length === 0:
@@ -123,13 +142,11 @@ class App extends React.Component {
       return true;
     default:
     }
-
     const cardAttr = [
       parseInt(cardAttr1, 10),
       parseInt(cardAttr2, 10),
       parseInt(cardAttr3, 10),
     ];
-
     let sum = 0;
     for (let i = 0; i < cardAttr.length; i += 1) {
       if (Number.isNaN(cardAttr[i]) || cardAttr[i] > MAX_ATT || cardAttr[i] < 0) {
@@ -137,18 +154,15 @@ class App extends React.Component {
       }
       sum += cardAttr[i];
     }
-
     return (sum > MAX_ATT_SUM);
   };
 
   onSaveButtonClick = () => {
     const { form } = this.state;
     let { hasTrunfo } = this.state;
-
     if (form[trunfoInput]) {
       hasTrunfo = true;
     }
-
     this.setState((prevState) => ({
       ...prevState,
       form: { ...DEFAULT_FORM },
@@ -161,17 +175,14 @@ class App extends React.Component {
     const pos = Number.parseInt(event.target.getAttribute('pos'), 10);
     const { cards, filteredCards } = this.state;
     let { hasTrunfo } = this.state;
-
     if (cards[pos][trunfoInput]) {
       hasTrunfo = false;
     }
-
     const fltPos = filteredCards.indexOf(cards[pos]);
     if (fltPos !== INDEXOF_ERROR) {
       filteredCards.splice(fltPos, 1);
     }
     cards.splice(pos, 1);
-
     this.setState((prevState) => ({
       ...prevState,
       cards,
@@ -188,11 +199,11 @@ class App extends React.Component {
       'attr1-input': cardAttr1,
       'attr2-input': cardAttr2,
       'attr3-input': cardAttr3,
-      'image-input': cardImage,
+      'image-input': cardImageInput,
+      cardImage,
       'rare-input': cardRare,
       'trunfo-input': cardTrunfo,
     } = form;
-
     return (
       <main>
         <header>
@@ -205,12 +216,13 @@ class App extends React.Component {
             cardAttr1={ cardAttr1 }
             cardAttr2={ cardAttr2 }
             cardAttr3={ cardAttr3 }
-            cardImage={ cardImage }
+            cardImageInput={ cardImageInput }
             cardRare={ cardRare }
             cardTrunfo={ cardTrunfo }
             hasTrunfo={ hasTrunfo }
             isSaveButtonDisabled={ this.isSaveButtonDisabled() }
             onInputChange={ this.onInputChange }
+            onImageInputChange={ this.onImageInputChange }
             onSaveButtonClick={ this.onSaveButtonClick }
           />
           <Card

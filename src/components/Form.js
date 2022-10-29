@@ -27,12 +27,13 @@ class Form extends Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
-      cardImage,
+      cardImageInput,
       cardRare,
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
       onInputChange,
+      onImageInputChange,
       onSaveButtonClick,
     } = this.props;
 
@@ -77,8 +78,8 @@ class Form extends Component {
           testid="image-input"
           label="Url da imagem:"
           type="text"
-          value={ cardImage }
-          onChange={ onInputChange }
+          value={ cardImageInput }
+          onChange={ onImageInputChange }
         />
 
         <label htmlFor="rare-input" className="form_cards_input">
@@ -117,12 +118,13 @@ Form.propTypes = {
   cardAttr1: PropTypes.string.isRequired,
   cardAttr2: PropTypes.string.isRequired,
   cardAttr3: PropTypes.string.isRequired,
-  cardImage: PropTypes.string.isRequired,
+  cardImageInput: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
   hasTrunfo: PropTypes.bool.isRequired,
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
+  onImageInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
 };
 

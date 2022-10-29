@@ -1,15 +1,24 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const three = 3;
+
 class Card extends Component {
-  superTrunfoSection(cardTrunfo) {
+  superTrunfoSection = (cardTrunfo) => {
     if (cardTrunfo) {
       return (
         <p data-testid="trunfo-card">Super Trunfo</p>
       );
     }
     return undefined;
-  }
+  };
+
+  attrSection = (pos, value) => (
+    <section className="attr-card">
+      <span>{ `Attr${pos}: ` }</span>
+      <span data-testid={ `attr${pos}-card` }>{ value }</span>
+    </section>
+  );
 
   render() {
     const {
@@ -18,22 +27,28 @@ class Card extends Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
-      cardImage,
       cardRare,
+      cardImage,
       cardTrunfo,
     } = this.props;
 
     return (
       <section className="card">
-        <section className="name-card">
-          <p data-testid="name-card">{ cardName }</p>
+        <span className="rare-card" data-testid="rare-card">{ cardRare }</span>
+        <span className="name-card" data-testid="name-card">{ cardName }</span>
+        <img
+          src={ cardImage }
+          alt={ cardName }
+          data-testid="image-card"
+        />
+        <span className="description-card" data-testid="description-card">
+          { cardDescription }
+        </span>
+        <section className="attr-section-card">
+          { this.attrSection(1, cardAttr1) }
+          { this.attrSection(2, cardAttr2) }
+          { this.attrSection(three, cardAttr3) }
         </section>
-        <img src={ cardImage } alt={ cardName } data-testid="image-card" />
-        <p data-testid="description-card">{ cardDescription }</p>
-        <p data-testid="attr1-card">{ cardAttr1 }</p>
-        <p data-testid="attr2-card">{ cardAttr2 }</p>
-        <p data-testid="attr3-card">{ cardAttr3 }</p>
-        <p data-testid="rare-card">{ cardRare }</p>
         { this.superTrunfoSection(cardTrunfo) }
       </section>
     );
